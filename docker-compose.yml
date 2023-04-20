@@ -3,9 +3,9 @@ version: '3.7'
 volumes:
 #  db_data: {}
   postgres_data: {}
-#  pgadmin: {}
-#  prometheus_data: {}
-#  grafana_data: {}
+  pgadmin: {}
+  prometheus_data: {}
+  grafana_data: {}
 
 services:
   
