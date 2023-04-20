@@ -57,16 +57,17 @@ services:
     image: edoburu/pgbouncer
     container_name: pgbouncer
     environment:
-       - DB_USER=dbuser
-       - DB_PASSWORD=postgres!pw
-       - DB_HOST=postgres
-       - DB_NAME=postgres
-       - POOL_MODE=transaction
-       - ADMIN_USERS=postgres,dbuser
+      - DB_USER=dbuser
+      - DB_PASSWORD=postgres!pw
+      - DB_HOST=postgres
+      - DB_NAME=postgres
+      - POOL_MODE=transaction
+      - ADMIN_USERS=postgres,dbuser
     ports:
       - 5432:5432
     depends_on:
-      - postgres      
+      - postgres
+
  prometheus:
     image: prom/prometheus
     container_name: prometheus
