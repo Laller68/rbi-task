@@ -80,20 +80,8 @@ services:
  #     - '--web.console.templates=/usr/share/prometheus/consoles'
  #     - '--web.route-prefix=/'
  #     - '--web.external-url=/prometheus/'
-    restart: always    
-    
-  alertmanager:
-    image: prom/alertmanager
-    container_name: alertmanager
-    volumes:
-#      - ./alertmanager/:/etc/alertmanager/
-      - alertmanager_data:/alertmanager/
-
     restart: always
-    command:
-      - '--config.file=/etc/alertmanager/alertmanager.yml'
-      - '--storage.path=/alertmanager'
- 
+   
   cadvisor:
     image: google/cadvisor
     container_name: cadvisor
