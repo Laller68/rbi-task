@@ -80,17 +80,29 @@ services:
  #     - '--web.console.templates=/usr/share/prometheus/consoles'
  #     - '--web.route-prefix=/'
  #     - '--web.external-url=/prometheus/'
-    restart: always
-   
-  cadvisor:
-    image: google/cadvisor
-    container_name: cadvisor
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
     restart: always  
+    
+  # alertmanager:
+    # image: prom/alertmanager
+    # container_name: alertmanager
+    # volumes:
+# #      - ./alertmanager/:/etc/alertmanager/
+      # - alertmanager_data:/alertmanager/
+
+    # restart: always
+    # command:
+      # - '--config.file=/etc/alertmanager/alertmanager.yml'
+      # - '--storage.path=/alertmanager'
+ 
+  # cadvisor:
+    # image: google/cadvisor
+    # container_name: cadvisor
+    # volumes:
+      # - /:/rootfs:ro
+      # - /var/run:/var/run:rw
+      # - /sys:/sys:ro
+      # - /var/lib/docker/:/var/lib/docker:ro
+    # restart: always  
 
   grafana:
     image: grafana/grafana-enterprise:9.3.2-ubuntu
@@ -129,7 +141,7 @@ services:
       - pgadmin:/var/lib/pgadmin      
     ports:
       - 5050:80
-     
+      
   postgres-exporter:
     image: wrouesnel/postgres_exporter:v0.8.0
     container_name: postgres-exporter
@@ -143,4 +155,4 @@ services:
       - 9187:9187
          
     depends_on:
-      - postgresdb          
+      - postgresdb      
