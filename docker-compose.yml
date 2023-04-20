@@ -133,7 +133,7 @@ services:
       - 5050:80
       
   postgres-exporter:
-    image: wrouesnel/postgres_exporter:latest
+    image: wrouesnel/postgres_exporter:v0.8.0
     container_name: postgres-exporter
     restart: always
     environment:
