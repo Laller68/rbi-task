@@ -6,7 +6,7 @@ volumes:
   pgadmin: {}
   prometheus_data: {}
   grafana_data: {}
-#  alertmanager_data: {}  
+  alertmanager_data: {}  
 
 services:
 
@@ -82,17 +82,16 @@ services:
  #     - '--web.external-url=/prometheus/'
     restart: always  
     
-  # alertmanager:
-    # image: prom/alertmanager
-    # container_name: alertmanager
-    # volumes:
-# #      - ./alertmanager/:/etc/alertmanager/
-      # - alertmanager_data:/alertmanager/
-
-    # restart: always
-    # command:
-      # - '--config.file=/etc/alertmanager/alertmanager.yml'
-      # - '--storage.path=/alertmanager'
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alertmanager
+    volumes:
+#     - ./alertmanager/:/etc/alertmanager/
+      - alertmanager_data:/alertmanager/
+    restart: always
+    command:
+       - '--config.file=/etc/alertmanager/alertmanager.yml'
+       - '--storage.path=/alertmanager'
  
  # cadvisor:
  #   image: google/cadvisor
