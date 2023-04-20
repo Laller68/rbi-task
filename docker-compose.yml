@@ -69,7 +69,7 @@ services:
     container_name: prometheus
     volumes:
       - prometheus_data:/prometheus
-      - ./prometheus/:/etc/prometheus/
+#      - ./prometheus/:/etc/prometheus/
     ports:
       - 9090:9090  
 
