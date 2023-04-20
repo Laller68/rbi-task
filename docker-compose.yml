@@ -94,15 +94,15 @@ services:
       # - '--config.file=/etc/alertmanager/alertmanager.yml'
       # - '--storage.path=/alertmanager'
  
-  cadvisor:
-    image: google/cadvisor
-    container_name: cadvisor
-    volumes:
-       - /:/rootfs:ro
-       - /var/run:/var/run:rw
-       - /sys:/sys:ro
-       - /var/lib/docker/:/var/lib/docker:ro
-    restart: always  
+ # cadvisor:
+ #   image: google/cadvisor
+ #   container_name: cadvisor
+ #   volumes:
+ #      - /:/rootfs:ro
+ #      - /var/run:/var/run:rw
+ #      - /sys:/sys:ro
+ #      - /var/lib/docker/:/var/lib/docker:ro
+ #   restart: always  
 
   grafana:
     image: grafana/grafana-enterprise:9.3.2-ubuntu
