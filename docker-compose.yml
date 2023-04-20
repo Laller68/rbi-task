@@ -63,11 +63,12 @@ services:
       - DB_NAME=postgres
       - POOL_MODE=transaction
       - ADMIN_USERS=postgres,dbuser
+       
     ports:
       - 5432:5432
     depends_on:
       - postgres
-
+      
   prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -92,9 +93,8 @@ services:
     user: "root"
 
     links:
-      - prometheus
-
-	  depends_on:
+      - prometheus	  
+    depends_on:
       - prometheus
       
     volumes:
