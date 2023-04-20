@@ -1,0 +1,35 @@
+version: '3.7'
+
+volumes:
+#  db_data: {}
+  postgres_data: {}
+#  pgadmin: {}
+#  prometheus_data: {}
+#  grafana_data: {}
+
+services:
+  
+  postgres:
+    image: postgres:12
+    container_name: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres!pw
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+
+  pgbouncer:
+    image: edoburu/pgbouncer
+    container_name: pgbouncer
+    environment:
+       - DB_USER=dbuser
+       - DB_PASSWORD=postgres!pw
+       - DB_HOST=db
+       - DB_NAME=postgres
+       - POOL_MODE=transaction
+       - ADMIN_USERS=postgres,dbuser
+    ports:
+      - 5432:5432
+    depends_on:
+      - postgres
