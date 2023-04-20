@@ -68,7 +68,7 @@ services:
     depends_on:
       - postgres
 
- prometheus:
+  prometheus:
     image: prom/prometheus
     container_name: prometheus
     volumes:
