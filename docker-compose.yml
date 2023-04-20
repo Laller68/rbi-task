@@ -6,6 +6,7 @@ volumes:
   pgadmin: {}
   prometheus_data: {}
   grafana_data: {}
+  alertmanager_data: {}  
 
 services:
 
@@ -140,7 +141,7 @@ services:
       - pgadmin:/var/lib/pgadmin      
     ports:
       - 5050:80
-
+     
   postgres-exporter:
     image: wrouesnel/postgres_exporter:v0.8.0
     container_name: postgres-exporter
