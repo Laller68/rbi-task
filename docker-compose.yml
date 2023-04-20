@@ -16,9 +16,9 @@ services:
       
     restart: always
     environment:
-      POSTGRES_USER: northwind_user
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres!pw
-      POSTGRES_DB: northwind_db
+      POSTGRES_DB: postgres
 
   pgbouncer:
     image: pgbouncer/pgbouncer
@@ -32,7 +32,7 @@ services:
     environment:
       # AUTH_TYPE: md5
       # AUTH_FILE: /etc/pgbouncer/userlist.txt
-      PGBOUNCER_AUTH_USER: northwind_user
+      PGBOUNCER_AUTH_USER: postgres
       PGBOUNCER_AUTH_PASSWORD: postgres!pw
       PGBOUNCER_DEFAULT_POOL_SIZE: 20
       PGBOUNCER_MAX_CLIENT_CONN: 100
@@ -41,7 +41,7 @@ services:
       PGBOUNCER_SERVER_IDLE_TIMEOUT: 60
       PGBOUNCER_SERVER_IDLE_TRANSACTION_TIMEOUT: 300
       PGBOUNCER_SERVER_ROUND_ROBIN: 1
-      PGBOUNCER_SERVERS: postgresdb:5432/northwind_db
+      PGBOUNCER_SERVERS: postgresdb:5432/postgres
       
   prometheus:
     image: prom/prometheus
