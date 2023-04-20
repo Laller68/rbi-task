@@ -22,11 +22,13 @@ services:
 
   pgbouncer:
     image: pgbouncer/pgbouncer
+    container_name: pgbouncer
     restart: always
     depends_on:
       - postgresdb
     ports:
       - 6432:6432
+      
     environment:
       # AUTH_TYPE: md5
       # AUTH_FILE: /etc/pgbouncer/userlist.txt
