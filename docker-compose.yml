@@ -23,9 +23,9 @@ services:
     image: edoburu/pgbouncer
     container_name: pgbouncer
     environment:
-       - DB_USER=dbuser
+       - DB_USER=postgres
        - DB_PASSWORD=postgres!pw
-       - DB_HOST=db
+       - DB_HOST=postgres
        - DB_NAME=postgres
        - POOL_MODE=transaction
        - ADMIN_USERS=postgres,dbuser
