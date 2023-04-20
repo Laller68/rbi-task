@@ -17,9 +17,9 @@ services:
       
     restart: always
     environment:
-      POSTGRES_USER: northwind_user
+      POSTGRES_USER: hho
       POSTGRES_PASSWORD: northwind!pw
-      POSTGRES_DB: northwind_db    
+      POSTGRES_DB: Northwind    
     
     ports:
       - 5432:5432    
@@ -36,7 +36,7 @@ services:
     environment:
       # AUTH_TYPE: md5
       # AUTH_FILE: /etc/pgbouncer/userlist.txt
-      PGBOUNCER_AUTH_USER: northwind_user
+      PGBOUNCER_AUTH_USER: hho
       PGBOUNCER_AUTH_PASSWORD: northwind!pw
       PGBOUNCER_DEFAULT_POOL_SIZE: 20
       PGBOUNCER_MAX_CLIENT_CONN: 100
@@ -45,7 +45,7 @@ services:
       PGBOUNCER_SERVER_IDLE_TIMEOUT: 60
       PGBOUNCER_SERVER_IDLE_TRANSACTION_TIMEOUT: 300
       PGBOUNCER_SERVER_ROUND_ROBIN: 1
-      PGBOUNCER_SERVERS: postgresdb:5432/northwind_db
+      PGBOUNCER_SERVERS: postgresdb:5432/Northwind
       
     ports:
       - 6432:6432 
@@ -117,4 +117,19 @@ services:
     volumes:
       - pgadmin:/var/lib/pgadmin      
     ports:
-      - 5050:80     
+      - 5050:80 
+
+   postgres-exporter:
+    image: wrouesnel/postgres_exporter:v0.8.0
+    container_name: postgres-exporter
+    restart: always
+    environment:
+      #- DATA_SOURCE_NAME=postgresql://postgres:password@postgres-db:5432/postgres?sslmode=disable
+      - DATA_SOURCE_URI=postgresdb:5432/postgres?sslmode=disable
+      - DATA_SOURCE_USER=postgres
+      - DATA_SOURCE_PASS=password
+    ports:
+      - 9187:9187
+         
+    depends_on:
+      - postgresdb
