@@ -8,6 +8,7 @@ volumes:
   grafana_data: {}
 
 services:
+
   postgresdb:
     image: postgres:12
     container_name: postgres
@@ -16,14 +17,17 @@ services:
       
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres!pw
-      POSTGRES_DB: postgres
+      POSTGRES_USER: northwind_user
+      POSTGRES_PASSWORD: northwind!pw
+      POSTGRES_DB: northwind_db    
+  ports:
+      - 5432:5432
 
   pgbouncer:
     image: pgbouncer/pgbouncer
     container_name: pgbouncer
     restart: always
+    
     depends_on:
       - postgresdb
     ports:
@@ -32,8 +36,8 @@ services:
     environment:
       # AUTH_TYPE: md5
       # AUTH_FILE: /etc/pgbouncer/userlist.txt
-      PGBOUNCER_AUTH_USER: postgres
-      PGBOUNCER_AUTH_PASSWORD: postgres!pw
+      PGBOUNCER_AUTH_USER: northwind_user
+      PGBOUNCER_AUTH_PASSWORD: northwind!pw
       PGBOUNCER_DEFAULT_POOL_SIZE: 20
       PGBOUNCER_MAX_CLIENT_CONN: 100
       PGBOUNCER_POOL_MODE: session
@@ -41,7 +45,7 @@ services:
       PGBOUNCER_SERVER_IDLE_TIMEOUT: 60
       PGBOUNCER_SERVER_IDLE_TRANSACTION_TIMEOUT: 300
       PGBOUNCER_SERVER_ROUND_ROBIN: 1
-      PGBOUNCER_SERVERS: postgresdb:5432/postgres
+      PGBOUNCER_SERVERS: postgresdb:5432/northwind_db
       
   prometheus:
     image: prom/prometheus
