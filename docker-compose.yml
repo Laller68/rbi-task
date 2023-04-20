@@ -20,8 +20,9 @@ services:
       POSTGRES_USER: northwind_user
       POSTGRES_PASSWORD: northwind!pw
       POSTGRES_DB: northwind_db    
+    
     ports:
-      - 5432:5432
+      - 5432:5432    
 
   pgbouncer:
     image: pgbouncer/pgbouncer
@@ -30,9 +31,8 @@ services:
     
     depends_on:
       - postgresdb
-    ports:
-      - 6432:6432
-      
+     
+    
     environment:
       # AUTH_TYPE: md5
       # AUTH_FILE: /etc/pgbouncer/userlist.txt
@@ -47,6 +47,22 @@ services:
       PGBOUNCER_SERVER_ROUND_ROBIN: 1
       PGBOUNCER_SERVERS: postgresdb:5432/northwind_db
       
+    ports:
+      - 6432:6432 
+
+  # portainer:
+    # image: portainer/portainer-ce:latest
+    # container_name: portainer
+    # restart: unless-stopped
+    # security_opt:
+      # - no-new-privileges:true
+    # volumes:
+      # - /etc/localtime:/etc/localtime:ro
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - ./portainer-data:/data
+    # ports:
+      # - 9000:9000
+     
   prometheus:
     image: prom/prometheus
     container_name: prometheus
