@@ -15,6 +15,7 @@ services:
     container_name: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./northwind_db.sql:/docker-entrypoint-initdb.d/northwind_db.sql
       
     restart: always
     environment:
