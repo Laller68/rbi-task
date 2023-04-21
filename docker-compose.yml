@@ -68,7 +68,7 @@ services:
     image: prom/prometheus
     container_name: prometheus
     volumes:
-      - prometheus_data:/etc/prometheus
+      - prometheus_data:/prometheus
   #   - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
   #    - /home/laller/prometheus.yml:/etc/prometheus/prometheus.yml:ro
   #    - ./prometheus/:/etc/prometheus/
