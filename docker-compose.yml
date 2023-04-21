@@ -15,7 +15,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data     
 #      - ./northwind_db.sql:/docker-entrypoint-initdb.d/northwind_db.sql
-      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
     restart: always
     environment:
       POSTGRES_USER: hho
