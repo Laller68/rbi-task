@@ -84,9 +84,10 @@ services:
       - '--web.route-prefix=/'
       - '--web.external-url=/prometheus/'
     restart: always  
-
+    depends_on:
+      - cadvisor
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
+    image: gcr.io/cadvisor/cadvisor
     container_name: cadvisor
     ports:
        - 8080:8080
