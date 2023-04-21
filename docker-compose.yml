@@ -87,7 +87,7 @@ services:
     depends_on:
       - cadvisor
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor
+    image: gcr.io/google-containers/cadvisor:latest
     container_name: cadvisor
     ports:
        - 8080:8080
@@ -96,7 +96,7 @@ services:
        - /var/run:/var/run:rw
        - /sys:/sys:ro
        - /var/lib/docker/:/var/lib/docker:ro
-    
+    restart: always
   alertmanager:
     image: prom/alertmanager
     container_name: alertmanager
