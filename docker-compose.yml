@@ -1,7 +1,6 @@
 version: '3.7'
 
 volumes:
-#  db_data: {}
   postgres_data: {}
   pgadmin: {}
   prometheus_data: {}
@@ -14,9 +13,9 @@ services:
     image: postgres:12
     container_name: postgres
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./northwind_db.sql:/docker-entrypoint-initdb.d/northwind_db.sql
-      
+      - postgres_data:/var/lib/postgresql/data     
+#      - ./northwind_db.sql:/docker-entrypoint-initdb.d/northwind_db.sql
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
     restart: always
     environment:
       POSTGRES_USER: hho
@@ -71,9 +70,7 @@ services:
     volumes:
       - prometheus_data:/prometheus
   #   - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
-  #    - /home/laller/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-  #    - ./prometheus/:/etc/prometheus/
-  #    - ./prometheus:/etc/prometheus
+  #    - /home/laller/prometheus.yml:/etc/prometheus/prometheus.yml:ro 
       
     ports:
       - 9090:9090  
@@ -103,7 +100,6 @@ services:
     image: prom/alertmanager
     container_name: alertmanager
     volumes:
-#     - ./alertmanager/:/etc/alertmanager/
       - alertmanager_data:/alertmanager/
 
     restart: always
@@ -161,4 +157,4 @@ services:
       - 9187:9187
          
     depends_on:
-      - postgresdb          
+      - postgresdb         
