@@ -99,11 +99,17 @@ The pgbouncer.ini file is a configuration file for the PgBouncer connection pool
 Here are some common parameters found in a pgbouncer.ini file:
 
 **listen_addr and listen_port:** Specifies the address and port that PgBouncer listens on for incoming connections.
+
 **auth_type and auth_file:** Specifies the type of authentication used and the file containing the list of authorized users and passwords.
+
 **pool_mode and pool_size:** Specifies the pooling mode and maximum number of connections in the pool for each database.
+
 **server_round_robin:** Specifies whether PgBouncer distributes connections across servers in a round-robin fashion.
+
 server_idle_timeout and **server_idle_transaction_timeout:** Specifies how long idle connections and transactions are kept alive before being closed.
+
 **client_idle_timeout** and **client_login_timeout:** Specifies how long idle clients and login attempts are kept alive before being disconnected.
+
 Overall, the **pgbouncer.ini** file is an important configuration file that allows you to customize the behavior of PgBouncer according to your needs.
 
 ![alt text for screen readers](/images/pgbouncer_advanced.png "postgres_container")
