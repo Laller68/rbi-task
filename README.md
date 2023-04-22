@@ -148,6 +148,8 @@ In the provided configuration will setup using of Docker init environmetal varia
 
 **Prometheus** is an open-source monitoring system that collects and stores metrics data from different systems and applications. It uses a pull-based model to scrape and collect metrics data, which makes it highly scalable and efficient. Prometheus provides a query language, **PromQL**, for querying and analyzing metrics data, and it can send alerts when certain conditions are met.
 
+![alt text for screen readers](/images/prometheus_ui.png "postgres_container")
+
 **Grafana** is an open-source data visualization and monitoring tool that can be used with Prometheus and other data sources. It allows users to create and customize dashboards to display metrics data in a variety of ways, such as graphs, charts, and tables. Grafana also supports alerting, so users can receive notifications when metrics data goes above or below certain thresholds.
 
 **CAdvisor (Container Advisor)** is an open-source tool that collects and analyzes resource usage and performance metrics for containers. It provides detailed information about container resource usage, such as **CPU, memory, disk, and network usage, and can also help identify potential performance issues.**
@@ -158,7 +160,7 @@ In the provided configuration will setup using of Docker init environmetal varia
 
 ![alt text for screen readers](/images/postgres_exporter.png "postgres_exporter")
 
-*---> In-pogress* 
+*>> still In-pogress, sorry* https://grafana.com/oss/prometheus/exporters/postgres-exporter/
 
 **pgAdmin** is a popular open-source administration and management tool for the PostgreSQL database. It provides an easy-to-use web interface that allows users to manage and interact with their PostgreSQL databases. pgAdmin allows users to perform various tasks, including creating and managing databases, creating and modifying tables, running queries, and managing users and permissions.
 **Version 4.5 of pgAdmin** includes many features, such as a new dashboard that provides real-time statistics, a query tool that allows users to write and execute SQL queries, support for managing partitioned tables, support for PostgreSQL 13, and more. Additionally, pgAdmin 4.5 provides support for cloud-based PostgreSQL instances, making it easy to manage databases in the cloud.
