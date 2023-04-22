@@ -4,6 +4,8 @@
 
 I choose the docker-compose deployment with helps of Docker environment
 
+Github repository (pubkic): https://github.com/Laller68/rbi-task
+
 
 ### Introduction
 
@@ -47,177 +49,46 @@ This will download the required images, create and start the containers in detac
 
 Create a new file named *docker-compose.yaml* and add the following content:
 
+![alt text for screen readers](/images/portainer_1.png "portainer_rbi_stack")
+
 ## Docker Compose with the following steps:
 
 1. Create a new folder for the project.
-2. Create a docker-compose.yaml file in the root directory of the folder.
+2. Create a **docker-compose.yaml** file in the root directory of the folder. 
 3. Configure the docker-compose.yaml file as follows:
 
+## Postgres Docker image creation
+
+1. Pulling the original **postgres** imangeg from DockerHub
+2. Splitting the original notthwind_db.sql file into two parts. a.) create_northwind_db.sql b.) northwind_db.sql
+
 ```bash
-version: '3.7'
-
-volumes:
-  postgres_data: {}
-  pgadmin: {}
-  prometheus_data: {}
-  grafana_data: {}
-  alertmanager_data: {}  
-
-services:
-
-  postgresdb:
-  #  image: postgres:12
-    image: postgres_northwind:latest
-    container_name: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data     
-#      - ./northwind_db.sql:/docker-entrypoint-initdb.d/northwind_db.sql
-      - ./create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
-    restart: always
-    environment:
-      POSTGRES_USER: hho
-      POSTGRES_PASSWORD: northwind!pw
-      POSTGRES_DB: Northwind    
-    
-    ports:
-      - 5432:5432    
-
-  pgbouncer:
-    image: pgbouncer/pgbouncer
-    container_name: pgbouncer
-    restart: always
-    
-    depends_on:
-      - postgresdb
-     
-    
-    environment:
-      # AUTH_TYPE: md5
-      # AUTH_FILE: /etc/pgbouncer/userlist.txt
-      PGBOUNCER_AUTH_USER: hho
-      PGBOUNCER_AUTH_PASSWORD: northwind!pw
-      PGBOUNCER_DEFAULT_POOL_SIZE: 20
-      PGBOUNCER_MAX_CLIENT_CONN: 100
-      PGBOUNCER_POOL_MODE: session
-      PGBOUNCER_POOL_SIZE: 20
-      PGBOUNCER_SERVER_IDLE_TIMEOUT: 60
-      PGBOUNCER_SERVER_IDLE_TRANSACTION_TIMEOUT: 300
-      PGBOUNCER_SERVER_ROUND_ROBIN: 1
-      PGBOUNCER_SERVERS: postgresdb:5432/Northwind
-      
-    ports:
-      - 6432:6432 
-
-  # portainer:
-    # image: portainer/portainer-ce:latest
-    # container_name: portainer
-    # restart: unless-stopped
-    # security_opt:
-      # - no-new-privileges:true
-    # volumes:
-      # - /etc/localtime:/etc/localtime:ro
-      # - /var/run/docker.sock:/var/run/docker.sock:ro
-      # - ./portainer-data:/data
-    # ports:
-      # - 9000:9000
-     
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    volumes:
-      - prometheus_data:/prometheus
-  #   - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
-  #    - /home/laller/prometheus.yml:/etc/prometheus/prometheus.yml:ro 
-      
-    ports:
-      - 9090:9090  
-
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
-      - '--web.route-prefix=/'
-      - '--web.external-url=/prometheus/'
-    restart: always  
-    depends_on:
-      - cadvisor
-  cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
-    container_name: cadvisor
-    ports:
-       - 8080:8080
-    volumes:
-       - /:/rootfs:ro
-       - /var/run:/var/run:rw
-       - /sys:/sys:ro
-  #     - /var/lib/docker/:/var/lib/docker:ro
-    restart: always
-  alertmanager:
-    image: prom/alertmanager
-    container_name: alertmanager
-    volumes:
-      - alertmanager_data:/alertmanager/
-
-    restart: always
-    command:
-      - '--config.file=/etc/alertmanager/alertmanager.yml'
-      - '--storage.path=/alertmanager'
-  grafana:
-    image: grafana/grafana-enterprise:9.3.2-ubuntu
-    container_name: grafana
-    user: "root"
-
-    links:
-      - prometheus	  
-    depends_on:
-
-      - prometheus
-    volumes:
-      - grafana_data:/var/lib/grafana
-
-    environment:
-      - GF_SERVER_DOMAIN=grafana
-      - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s:%(http_port)s/grafana/
-      - GF_SERVER_SERVE_FROM_SUB_PATH=true
-      - GF_USERS_DEFAULT_THEME=dark
-      - GF_USERS_ALLOW_SIGN_UP=false
-    restart: always
-    
-    ports:
-      - 3000:3000
-    
-  pgadmin_client:
-    container_name: pgadmin4-container
-    image: dpage/pgadmin4
-    restart: unless-stopped
-    expose:
-      - 5050
-    environment:
-      PGADMIN_DEFAULT_EMAIL: lajos.misurda@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: postgres
-    volumes:
-      - pgadmin:/var/lib/pgadmin      
-    ports:
-      - 5050:80
-      
-  postgres-exporter:
-    image: wrouesnel/postgres_exporter:v0.8.0
-    container_name: postgres-exporter
-    restart: always
-    environment:
-      #- DATA_SOURCE_NAME=postgresql://postgres:password@postgres-db:5432/postgres?sslmode=disable
-      - DATA_SOURCE_URI=postgresdb:5432/postgres?sslmode=disable
-      - DATA_SOURCE_USER=postgres
-      - DATA_SOURCE_PASS=password
-    ports:
-      - 9187:9187
-         
-    depends_on:
-      - postgresdb         
+      - ./create_northwind_db.sql:/docker-entrypoint-initdb.d/create_northwind_db.sql
+      - ./northwind_db.sql:/docker-entrypoint-initdb.d/northwind_db.sql
 ```
 
-## PgBouncer Docker container configuration
+3. Copy the sql srcipt into the host directory from the original source **harryho/db-samples** https://github.com/harryho/db-samples/blob/master/pgsql/northwind.sql
+4. Copy the file(s) into the **postgres** image
+
+```bash
+docker cp northwind_db.sql postgres:/docker-entrypoint-initdb.d/northwind_db.sql
+docker cp create_northwind_db.sql postgres:/docker-entrypoint-initdb.d/create_northwind_db.sql
+```
+
+### Why in docker-entrypoint-initdb.d/ ?###
+
+a.) The official PostgreSQL Docker image https://hub.docker.com/_/postgres/ allows us to place SQL files in the /docker-entrypoint-initb.d folder, and the first time the service starts, it will import and execute those SQL files.
+
+![alt text for screen readers](/images/postgres_container.png "postgres_container")
+
+b.) In our Postgres container, we will find this bash script /usr/local/bin/docker-entrypoint.sh where each *.sh, **.sql and *.*sql.gz file will be executed.
+
+```bash
+      - ./create_northwind_db.sql:/docker-entrypoint-initdb.d/create_northwind_db.sql
+      - ./northwind_db.sql:/docker-entrypoint-initdb.d/northwind_db.sql
+```
+
+### PgBouncer Docker container configuration
 
 PgBouncer is a lightweight connection pooler for PostgreSQL that sits between the application and the database. It allows multiple clients to share a single connection to the database, reducing the number of connections and improving performance.
 
