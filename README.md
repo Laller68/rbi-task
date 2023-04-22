@@ -1,4 +1,4 @@
-### Deployment of the Postgres DB poller and Postgres monitoring 
+### Deployment of the Postgres DB poller (PgBouncer) and Postgres DB monitoring 
 
 **Task:**
 
@@ -125,3 +125,5 @@ In the provided configuration, the following parameters are defined:
 **PGBOUNCER_SERVERS:** specifies the address and port of the PostgreSQL server that PgBouncer should connect to.
 
 **ports:** maps the container's 6432 port to the host machine's 6432 port, allowing connections to be made to PgBouncer from outside the Docker network.
+
+
