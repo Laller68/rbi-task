@@ -66,7 +66,7 @@ services:
       # - 9000:9000
      
   prometheus:
-    image: prom/prometheus
+    image: prometheus
     container_name: prometheus
     volumes:
       - prometheus_data:/prometheus
