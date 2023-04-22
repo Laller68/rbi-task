@@ -1,4 +1,4 @@
-### Deployment of the Postgres DB poller (PgBouncer) and Postgres DB monitoring 
+### Deployment of the Postgres DB pooler (PgBouncer) and Postgres DB monitoring 
 
 **Task:**
 
@@ -12,7 +12,6 @@ Github repository (pubkic): https://github.com/Laller68/rbi-task
 Docker is a popular containerization technology that allows you to create, deploy, and run applications in a containerized environment. Postgres is a powerful open-source database management system that is widely used in many applications. By combining these two technologies, you can easily deploy Postgres in a containerized environment using Docker.
 
 This document will guide you through the process of deploying Postgres in Docker and loading the northwind_db.sql on initial boot.
-
 
 
 ### Prerequisites
@@ -92,7 +91,26 @@ b.) In our Postgres container, we will find this bash script /usr/local/bin/dock
 
 PgBouncer is a lightweight connection pooler for PostgreSQL that sits between the application and the database. It allows multiple clients to share a single connection to the database, reducing the number of connections and improving performance.
 
-In the provided configuration, the following parameters are defined:
+
+![alt text for screen readers](/images/pgbouncer_intro.png "postgres_container")
+
+The pgbouncer.ini file is a configuration file for the PgBouncer connection pooler, which acts as a middleman between the client and the PostgreSQL database. It contains various settings that define how PgBouncer operates, including database connection parameters, authentication settings, and pool configuration.
+
+Here are some common parameters found in a pgbouncer.ini file:
+
+**listen_addr and listen_port:** Specifies the address and port that PgBouncer listens on for incoming connections.
+**auth_type and auth_file:** Specifies the type of authentication used and the file containing the list of authorized users and passwords.
+**pool_mode and pool_size:** Specifies the pooling mode and maximum number of connections in the pool for each database.
+**server_round_robin:** Specifies whether PgBouncer distributes connections across servers in a round-robin fashion.
+server_idle_timeout and **server_idle_transaction_timeout:** Specifies how long idle connections and transactions are kept alive before being closed.
+**client_idle_timeout** and **client_login_timeout:** Specifies how long idle clients and login attempts are kept alive before being disconnected.
+Overall, the **pgbouncer.ini** file is an important configuration file that allows you to customize the behavior of PgBouncer according to your needs.
+
+![alt text for screen readers](/images/pgbouncer_advanced.png "postgres_container")
+
+### Docker-compose configuration (PgBouncer) 
+
+In the provided configuration will setup using of Docker init environmetal variables, the following parameters are defined:
 
 **image:** specifies the Docker image to be used for the PgBouncer container, which is pgbouncer/pgbouncer.
 
@@ -124,6 +142,28 @@ In the provided configuration, the following parameters are defined:
 
 **PGBOUNCER_SERVERS:** specifies the address and port of the PostgreSQL server that PgBouncer should connect to.
 
-**ports:** maps the container's 6432 port to the host machine's 6432 port, allowing connections to be made to PgBouncer from outside the Docker network.
+**ports:** maps the container's **6432** port to the host machine's 6432 port, allowing connections to be made to **PgBouncer** from outside the Docker network.
 
+### Prometheus, Grafana, Cadvisor as well as Postgres-exporter stack for Postgres monitoring
+
+**Prometheus** is an open-source monitoring system that collects and stores metrics data from different systems and applications. It uses a pull-based model to scrape and collect metrics data, which makes it highly scalable and efficient. Prometheus provides a query language, **PromQL**, for querying and analyzing metrics data, and it can send alerts when certain conditions are met.
+
+**Grafana** is an open-source data visualization and monitoring tool that can be used with Prometheus and other data sources. It allows users to create and customize dashboards to display metrics data in a variety of ways, such as graphs, charts, and tables. Grafana also supports alerting, so users can receive notifications when metrics data goes above or below certain thresholds.
+
+**CAdvisor (Container Advisor)** is an open-source tool that collects and analyzes resource usage and performance metrics for containers. It provides detailed information about container resource usage, such as **CPU, memory, disk, and network usage, and can also help identify potential performance issues.**
+
+![alt text for screen readers](/images/docker_monitoring.png "docker_containering")
+
+**Postgres-exporter** is a tool that collects and exports **Postgres database metrics** to **Prometheus**. It can provide valuable insight into Postgres **performance**, such as the **number of active connections**, **query performance**, and **cache usage**. With **Postgres-exporter**, administrators can monitor **Postgres databases and quickly identify and resolve issues.**
+
+![alt text for screen readers](/images/postgres_exporter.png "postgres_exporter")
+
+*---> In-pogress* 
+
+**pgAdmin** is a popular open-source administration and management tool for the PostgreSQL database. It provides an easy-to-use web interface that allows users to manage and interact with their PostgreSQL databases. pgAdmin allows users to perform various tasks, including creating and managing databases, creating and modifying tables, running queries, and managing users and permissions.
+**Version 4.5 of pgAdmin** includes many features, such as a new dashboard that provides real-time statistics, a query tool that allows users to write and execute SQL queries, support for managing partitioned tables, support for PostgreSQL 13, and more. Additionally, pgAdmin 4.5 provides support for cloud-based PostgreSQL instances, making it easy to manage databases in the cloud.
+
+![alt text for screen readers](/images/pg_admin_w_northwind_db.png "postgres_db")
+
+**Prometheus Alertmanager** is an open-source tool for handling and sending alerts generated by Prometheus and other monitoring systems. It acts as a central hub for processing, **grouping**, **deduplicating**, and **routing alerts** to various notification channels like **email**, PagerDuty, Slack, and other third-party services. Alertmanager can also suppress duplicate alerts, classify alerts based on severity or type, and silence alerts for a specific time period or group. It provides a web interface for managing alerts, silences, and notification receivers, and allows for easy integration with other tools in the monitoring ecosystem. With Alertmanager, teams can quickly respond to issues and outages, ensuring high availability and reliability of their systems.
 
