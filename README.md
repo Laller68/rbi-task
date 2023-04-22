@@ -28,7 +28,7 @@ This document will guide you through the process of deploying Postgres in Docker
 
 3. Run the following command to start the services:
 
-```bash
+```code
 docker-compose up -d
 ```
 This will download the required images, create and start the containers in detached mode.
@@ -61,7 +61,7 @@ Create a new file named *docker-compose.yaml* and add the following content:
 1. Pulling the original **postgres** imangeg from DockerHub
 2. Splitting the original notthwind_db.sql file into two parts. a.) create_northwind_db.sql b.) northwind_db.sql
 
-```bash
+```yaml
       - ./create_northwind_db.sql:/docker-entrypoint-initdb.d/create_northwind_db.sql
       - ./northwind_db.sql:/docker-entrypoint-initdb.d/northwind_db.sql
 ```
@@ -69,7 +69,7 @@ Create a new file named *docker-compose.yaml* and add the following content:
 3. Copy the sql srcipt into the host directory from the original source **harryho/db-samples** https://github.com/harryho/db-samples/blob/master/pgsql/northwind.sql
 4. Copy the file(s) into the **postgres** image
 
-```bash
+```code
 docker cp northwind_db.sql postgres:/docker-entrypoint-initdb.d/northwind_db.sql
 docker cp create_northwind_db.sql postgres:/docker-entrypoint-initdb.d/create_northwind_db.sql
 ```
@@ -82,7 +82,7 @@ a.) The official PostgreSQL Docker image https://hub.docker.com/_/postgres/ allo
 
 b.) In our Postgres container, we will find this bash script /usr/local/bin/docker-entrypoint.sh where each *.sh, **.sql and *.*sql.gz file will be executed.
 
-```bash
+```code
       - ./create_northwind_db.sql:/docker-entrypoint-initdb.d/create_northwind_db.sql
       - ./northwind_db.sql:/docker-entrypoint-initdb.d/northwind_db.sql
 ```
