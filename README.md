@@ -1,10 +1,25 @@
-## Prerequisites
+### Deployment of the Postgres DB poller and Postgres monitoring 
 
-- Docker engine installed and running
+**Task:**
 
-- Docker Compose installed
+I choose the docker-compose deployment with helps of Docker environment
 
-# Deployment Steps
+
+### Introduction
+
+Docker is a popular containerization technology that allows you to create, deploy, and run applications in a containerized environment. Postgres is a powerful open-source database management system that is widely used in many applications. By combining these two technologies, you can easily deploy Postgres in a containerized environment using Docker.
+
+This document will guide you through the process of deploying Postgres in Docker and loading the northwind_db.sql on initial boot.
+
+
+
+### Prerequisites
+
+- Docker engine 
+
+- Docker Compose 
+
+### Deployment Steps
 
 1. Create a new directory for the deployment and copy the compose file into it.
 
@@ -26,6 +41,11 @@ This will download the required images, create and start the containers in detac
 - Pgbouncer: http://localhost:6432
 - Prometheus: http://localhost:9090
 - Grafana: http://localhost:3000
+
+
+**Step 1: Create a Docker Compose file**
+
+Create a new file named *docker-compose.yaml* and add the following content:
 
 ## Docker Compose with the following steps:
 
