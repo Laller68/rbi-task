@@ -5,7 +5,8 @@ volumes:
   pgadmin: {}
   prometheus_data: {}
   grafana_data: {}
-  alertmanager_data: {}  
+  alertmanager_data: {}
+  pgbouncer_data: {}   
 
 services:
 
@@ -31,7 +32,7 @@ services:
     container_name: pgbouncer
     restart: always
     volumes:
-      - /path/to/pgbouncer-persistence/conf/:/bitnami/pgbouncer/conf/
+      - pgbouncer_data:/path/to/pgbouncer-persistence/conf/:/bitnami/pgbouncer/conf/
     depends_on:
       - postgresdb 
     
@@ -55,8 +56,6 @@ services:
       PGBOUNCER_SERVER_IDLE_TRANSACTION_TIMEOUT: 300
       PGBOUNCER_SERVER_ROUND_ROBIN: 1
  #     PGBOUNCER_SERVERS: postgresdb:5432/Northwind
-
- 
       
     ports:
       - 6432:6432 
