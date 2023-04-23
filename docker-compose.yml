@@ -27,7 +27,7 @@ services:
       - 5432:5432    
 
   pgbouncer:
-    image: pgbouncer/pgbouncer
+    image: bitnami/pgbouncer
     container_name: pgbouncer
     restart: always
     
