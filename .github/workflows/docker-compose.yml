@@ -1,0 +1,169 @@
+version: '3.7'
+
+volumes:
+  postgres_data: {}
+  pgadmin: {}
+  prometheus_data: {}
+  grafana_data: {}
+  alertmanager_data: {}
+  pgbouncer_data: {}   
+
+services:
+
+  postgresdb:
+  #  image: postgres:12
+    image: postgres_northwind:latest
+    container_name: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data     
+    #  - ./create_northwind_db.sql:/docker-entrypoint-initdb.d/create_northwind_db.sql
+    #  - ./northwind_db.sql:/docker-entrypoint-initdb.d/northwind_db.sql
+    restart: always
+    environment:
+      POSTGRES_USER: hho
+      POSTGRES_PASSWORD: northwind!pw
+      POSTGRES_DB: Northwind    
+    
+    ports:
+      - 5432:5432    
+
+  pgbouncer:
+    image: bitnami/pgbouncer
+    container_name: pgbouncer
+    restart: always
+    volumes:
+      - pgbouncer_data:/path/to/pgbouncer-persistence/conf/:/bitnami/pgbouncer/conf/
+    depends_on:
+      - postgresdb 
+    
+    environment:
+      # AUTH_TYPE: md5
+      # AUTH_FILE: /etc/pgbouncer/userlist.txt
+      PGBOUNCER_AUTH_USER: hho
+      PGBOUNCER_AUTH_PASSWORD: northwind!pw
+      POSTGRESQL_HOST: "postgres"
+      POSTGRESQL_USERNAME: hho
+      POSTGRESQL_PASSWORD: northwind!pw
+      POSTGRESQL_PORT: 5432
+      PGBOUNCER_DATABASE: Northwind
+      PGBOUNCER_AUTH_TYPE: "trust"
+      PGBOUNCER_IGNORE_STARTUP_PARAMETERS: "extra_float_digits"
+      PGBOUNCER_DEFAULT_POOL_SIZE: 20
+      PGBOUNCER_MAX_CLIENT_CONN: 100
+      PGBOUNCER_POOL_MODE: session
+      PGBOUNCER_POOL_SIZE: 20
+      PGBOUNCER_SERVER_IDLE_TIMEOUT: 60
+      PGBOUNCER_SERVER_IDLE_TRANSACTION_TIMEOUT: 300
+      PGBOUNCER_SERVER_ROUND_ROBIN: 1
+ #     PGBOUNCER_SERVERS: postgresdb:5432/Northwind
+      
+    ports:
+      - 6432:6432 
+
+  # portainer:
+    # image: portainer/portainer-ce:latest
+    # container_name: portainer
+    # restart: unless-stopped
+    # security_opt:
+      # - no-new-privileges:true
+    # volumes:
+      # - /etc/localtime:/etc/localtime:ro
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - ./portainer-data:/data
+    # ports:
+      # - 9000:9000
+     
+  prometheus:
+    image: prometheus
+    container_name: prometheus
+    volumes:
+      - prometheus_data:/prometheus
+  #   - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  #    - /home/laller/prometheus.yml:/etc/prometheus/prometheus.yml:ro 
+      
+    ports:
+      - 9090:9090  
+
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.route-prefix=/'
+      - '--web.external-url=/prometheus/'
+    restart: always  
+    depends_on:
+      - cadvisor
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+       - 8080:8080
+    volumes:
+       - /:/rootfs:ro
+       - /var/run:/var/run:rw
+       - /sys:/sys:ro
+  #     - /var/lib/docker/:/var/lib/docker:ro
+    restart: always
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alertmanager
+    volumes:
+      - alertmanager_data:/alertmanager/
+
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+  grafana:
+    image: grafana/grafana-enterprise:9.3.2-ubuntu
+    container_name: grafana
+    user: "root"
+
+    links:
+      - prometheus	  
+    depends_on:
+
+      - prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+    environment:
+      - GF_SERVER_DOMAIN=grafana
+      - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s:%(http_port)s/grafana/
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+      - GF_USERS_DEFAULT_THEME=dark
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: always
+    
+    ports:
+      - 3000:3000
+    
+  pgadmin_client:
+    container_name: pgadmin4-container
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    expose:
+      - 5050
+    environment:
+      PGADMIN_DEFAULT_EMAIL: lajos.misurda@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    volumes:
+      - pgadmin:/var/lib/pgadmin      
+    ports:
+      - 5050:80
+      
+  postgres-exporter:
+    image: bitnami/postgres-exporter:latest
+    container_name: postgres-exporter
+    restart: always
+    environment:
+      #- DATA_SOURCE_NAME=postgresql://postgres:password@postgres-db:5432/postgres?sslmode=disable
+      - DATA_SOURCE_URI=postgresdb:5432/postgres?sslmode=disable
+      - DATA_SOURCE_USER=postgres
+      - DATA_SOURCE_PASS=password
+    ports:
+      - 9187:9187
+         
+    depends_on:
+      - postgresdb         
