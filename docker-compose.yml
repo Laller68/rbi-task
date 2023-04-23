@@ -39,7 +39,7 @@ services:
       # AUTH_FILE: /etc/pgbouncer/userlist.txt
  #     PGBOUNCER_AUTH_USER: hho
  #     PGBOUNCER_AUTH_PASSWORD: northwind!pw
- #     PGBOUNCER_DEFAULT_POOL_SIZE: 20
+      PGBOUNCER_DEFAULT_POOL_SIZE: 20
  #     PGBOUNCER_MAX_CLIENT_CONN: 100
  #     PGBOUNCER_POOL_MODE: session
  #     PGBOUNCER_POOL_SIZE: 20
