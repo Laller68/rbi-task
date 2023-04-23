@@ -30,7 +30,8 @@ services:
     image: bitnami/pgbouncer
     container_name: pgbouncer
     restart: always
-    
+    volumes:
+      - /path/to/pgbouncer-persistence/conf/:/bitnami/pgbouncer/conf/
     depends_on:
       - postgresdb 
     
