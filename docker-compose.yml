@@ -32,22 +32,29 @@ services:
     restart: always
     
     depends_on:
-      - postgresdb
-     
+      - postgresdb 
     
     environment:
       # AUTH_TYPE: md5
       # AUTH_FILE: /etc/pgbouncer/userlist.txt
-      PGBOUNCER_AUTH_USER: hho
-      PGBOUNCER_AUTH_PASSWORD: northwind!pw
-      PGBOUNCER_DEFAULT_POOL_SIZE: 20
-      PGBOUNCER_MAX_CLIENT_CONN: 100
-      PGBOUNCER_POOL_MODE: session
-      PGBOUNCER_POOL_SIZE: 20
-      PGBOUNCER_SERVER_IDLE_TIMEOUT: 60
-      PGBOUNCER_SERVER_IDLE_TRANSACTION_TIMEOUT: 300
-      PGBOUNCER_SERVER_ROUND_ROBIN: 1
-      PGBOUNCER_SERVERS: postgresdb:5432/Northwind
+ #     PGBOUNCER_AUTH_USER: hho
+ #     PGBOUNCER_AUTH_PASSWORD: northwind!pw
+ #     PGBOUNCER_DEFAULT_POOL_SIZE: 20
+ #     PGBOUNCER_MAX_CLIENT_CONN: 100
+ #     PGBOUNCER_POOL_MODE: session
+ #     PGBOUNCER_POOL_SIZE: 20
+ #     PGBOUNCER_SERVER_IDLE_TIMEOUT: 60
+ #     PGBOUNCER_SERVER_IDLE_TRANSACTION_TIMEOUT: 300
+ #     PGBOUNCER_SERVER_ROUND_ROBIN: 1
+ #     PGBOUNCER_SERVERS: postgresdb:5432/Northwind
+
+      POSTGRESQL_HOST: "postgres"
+      POSTGRESQL_USERNAME: hho
+      POSTGRESQL_PASSWORD: northwind!pw
+      POSTGRESQL_PORT: 5432
+      PGBOUNCER_DATABASE: Northwind
+      PGBOUNCER_AUTH_TYPE: "trust"
+      PGBOUNCER_IGNORE_STARTUP_PARAMETERS: "extra_float_digits"
       
     ports:
       - 6432:6432 
