@@ -37,8 +37,8 @@ services:
     environment:
       # AUTH_TYPE: md5
       # AUTH_FILE: /etc/pgbouncer/userlist.txt
- #     PGBOUNCER_AUTH_USER: hho
- #     PGBOUNCER_AUTH_PASSWORD: northwind!pw
+      PGBOUNCER_AUTH_USER: hho
+      PGBOUNCER_AUTH_PASSWORD: northwind!pw
       POSTGRESQL_HOST: "postgres"
       POSTGRESQL_USERNAME: hho
       POSTGRESQL_PASSWORD: northwind!pw
