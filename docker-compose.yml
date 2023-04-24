@@ -66,8 +66,8 @@ services:
     ports:
       - 9127:9127
     environment:
-#      DATABASE_URL: "postgres://postgres:postgres@pgbouncer:6432/pgbouncer?sslmode=disable&binary_parameters=yes"
-      DATABASE_URL: "postgres://hho:northwind!pw@pgbouncer:6432/pgbouncer?sslmode=disable&binary_parameters=yes"
+      DATABASE_URL: "postgres://postgres:postgres@pgbouncer:6432/pgbouncer?sslmode=disable&binary_parameters=yes"
+#      DATABASE_URL: "postgres://hho:northwind!pw@pgbouncer:6432/pgbouncer?sslmode=disable&binary_parameters=yes"
       DEFAULT_LABELS: "instance=pg1 env=dev"
     depends_on:
       - pgbouncer
