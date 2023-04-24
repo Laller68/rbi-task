@@ -164,11 +164,12 @@ services:
       - 5050:80
       
   postgres-exporter:
-    image: bitnami/postgres-exporter:latest
+#    image: bitnami/postgres-exporter:latest
+    image: prometheuscommunity/postgres-exporter-linux-amd64
     container_name: postgres-exporter
     restart: always
     environment:
-      - DATA_SOURCE_NAME=postgresql://postgres:password@postgres-db:5432/postgres?sslmode=disable
+      - DATA_SOURCE_NAME=postgresql://postgres:password@postgres-db:5432/postgres?sslmode=disable      
       - DATA_SOURCE_URI=postgresdb:5432/postgres?sslmode=disable
       - DATA_SOURCE_USER=postgres
       - DATA_SOURCE_PASS=password
