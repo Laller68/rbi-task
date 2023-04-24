@@ -59,17 +59,17 @@ services:
       
     ports:
       - 6432:6432 
-#  pgbouncerexporter:
-#    build:
-#      context: .
-#    restart: always
-#    ports:
-#      - 9127:9127
-#    environment:
-#      DATABASE_URL: "postgres://hho:northwind!pw@pgbouncer:6432/pgbouncer?sslmode=disable&binary_parameters=yes"
-#      DEFAULT_LABELS: "instance=pg1 env=dev"
-#    depends_on:
-#      - pgbouncer
+  pgbouncerexporter:
+    image:  jbub/pgbouncer_exporter:latest
+    container_name: pgbouncer-exporter
+    restart: always
+    ports:
+      - 9127:9127
+    environment:
+      DATABASE_URL: "postgres://hho:northwind!pw@pgbouncer:6432/pgbouncer?sslmode=disable&binary_parameters=yes"
+      DEFAULT_LABELS: "instance=pg1 env=dev"
+    depends_on:
+      - pgbouncer
   # portainer:
     # image: portainer/portainer-ce:latest
     # container_name: portainer
